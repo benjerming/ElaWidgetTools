@@ -1,0 +1,150 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "windows base",
+            "displayName": "Base configure preset",
+            "description": "Sets Ninja generator, build and install directory",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows x64-debug",
+            "displayName": "Configure preset for x64-debug",
+            "description": "Sets Ninja generator, build and install directory, CMAKE_BUILD_TYPE to Debug",
+            "inherits": "windows base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "windows x64-release",
+            "displayName": "Configure preset for x64-release",
+            "description": "Sets Ninja generator, build and install directory, CMAKE_BUILD_TYPE to Release",
+            "inherits": "windows base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "linux base",
+            "displayName": "Base configure preset",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "linux x64-debug",
+            "displayName": "Configure preset for x64-debug",
+            "description": "Sets Ninja generator, build and install directory, CMAKE_BUILD_TYPE to Debug",
+            "inherits": "linux base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux x64-release",
+            "displayName": "Configure preset for x64-release",
+            "description": "Sets Ninja generator, build and install directory, CMAKE_BUILD_TYPE to Release",
+            "inherits": "linux base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows vcpkg x64-debug",
+            "displayName": "Configure preset for vcpkg x64-debug",
+            "description": "Sets Ninja generator, build and install directory, CMAKE_BUILD_TYPE to Debug, CMAKE_TOOLCHAIN_FILE to vcpkg.cmake",
+            "inherits": "windows x64-debug",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "type": "FILEPATH",
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                }
+            }
+        },
+        {
+            "name": "windows vcpkg x64-release",
+            "displayName": "Configure preset for vcpkg x64-release",
+            "description": "Sets Ninja generator, build and install directory, CMAKE_BUILD_TYPE to Release, CMAKE_TOOLCHAIN_FILE to vcpkg.cmake",
+            "inherits": "windows x64-release",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "environment": {
+                "VCPKG_FEATURE_FLAGS": "manifests,versions,binarycaching,registries"
+            },
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "type": "FILEPATH",
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                }
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows x64-debug",
+            "displayName": "Build preset for x64-debug",
+            "description": "Builds the project using Ninja",
+            "configurePreset": "windows x64-debug"
+        },
+        {
+            "name": "windowx x64-release",
+            "description": "Build preset for x64-release",
+            "displayName": "Builds the project using Ninja",
+            "configurePreset": "windows x64-release"
+        },
+        {
+            "name": "linux x64-debug",
+            "displayName": "Build preset for x64-debug",
+            "description": "Builds the project using Ninja",
+            "configurePreset": "linux x64-debug"
+        },
+        {
+            "name": "linux x64-release",
+            "description": "Build preset for x64-release",
+            "displayName": "Builds the project using Ninja",
+            "configurePreset": "linux x64-release"
+        },
+        {
+            "name": "windows vcpkg x64-debug",
+            "displayName": "Build preset for vcpkg x64-debug",
+            "description": "Builds the project using Ninja, using vcpkg toolchain",
+            "configurePreset": "windows vcpkg x64-debug"
+        },
+        {
+            "name": "windows vcpkg x64-release",
+            "displayName": "Build preset for vcpkg x64-release",
+            "description": "Builds the project using Ninja, using vcpkg toolchain",
+            "configurePreset": "windows vcpkg x64-release"
+        }
+    ]
+}
